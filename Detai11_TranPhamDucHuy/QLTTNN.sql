@@ -1,0 +1,306 @@
+﻿CREATE DATABASE QLTTANHNGU
+USE QLTTANHNGU
+
+DROP DATABASE QLTTANHNGU
+
+CREATE TABLE HOCVIEN
+(
+	MAHV CHAR(20) PRIMARY KEY,
+
+	MALOP CHAR(50),
+	TENHV NVARCHAR(100),
+	TRUONG NVARCHAR(100),
+	DIACHI NVARCHAR(100),
+	SDT CHAR(20),
+	GIOITINH NVARCHAR(10),
+	NGAYSINH DATE ,
+
+	-- tuoi của học viên phải lớn hơn 6 vì là cấp 1 
+	TUOI int NOT NULL CHECK (TUOI >= 6)
+
+	
+)
+
+
+
+
+
+CREATE TABLE GIANGVIEN
+(
+	MAGV CHAR(50) PRIMARY KEY,
+
+	MALOP CHAR(50),
+	TENGV NVARCHAR(50),
+	GIOITINH NVARCHAR(10),
+	NGAYSINH DATE,
+	CCCD CHAR(20),
+	DIACHI NVARCHAR(100),
+	EMAIL NVARCHAR(100),
+	DIENTHOAI CHAR(20),
+	NGANHHOC NVARCHAR(100),
+	UUDIEM NVARCHAR(1000),
+	TRANGTHAI NVARCHAR(100),
+
+	--tuoi của giảng viên phải trên 20 
+	TUOI int NOT NULL CHECK (TUOI >= 20),
+
+	--kiểm tra luong của giảng viên >0 
+	LUONG INT CONSTRAINT CK CHECK (LUONG>0)
+
+)
+
+
+
+
+
+
+CREATE TABLE KHOAHOC
+(
+   MAKH NVARCHAR (50) PRIMARY KEY,
+   MALOP CHAR(50),
+   TENKH NVARCHAR(50),
+
+
+ 
+   
+)
+
+
+
+CREATE TABLE LOP
+(
+	MALOP CHAR(50) PRIMARY KEY,
+	
+	TENLOP NVARCHAR(100)
+
+
+)
+
+
+CREATE TABLE PHUHUYNH 
+(
+  MAPH CHAR(50) PRIMARY KEY,
+  MAHV CHAR(20),
+  TENPHUHUYNH NVARCHAR (100),
+  SDT CHAR (20)
+  
+
+)
+
+
+
+CREATE TABLE NHANVIENHOTRO
+(
+   MANV CHAR(50) PRIMARY KEY,
+   MALOP CHAR(50),
+   TENNV NVARCHAR(50),
+   GIOITINH NVARCHAR(50),
+
+)
+
+ALTER TABLE HOCVIEN
+ADD	CONSTRAINT FK_HOCVIEN_LOP FOREIGN KEY (MALOP) REFERENCES LOP(MALOP)
+
+ALTER TABLE GIANGVIEN
+ADD CONSTRAINT FK_GIANGVIEN_LOP FOREIGN KEY (MALOP) REFERENCES LOP(MALOP)
+
+
+ALTER TABLE KHOAHOC
+ADD CONSTRAINT FK_KHOAHOC_LOP FOREIGN KEY (MALOP) REFERENCES LOP(MALOP)
+
+ALTER TABLE NHANVIENHOTRO
+ADD CONSTRAINT FK_NHANVIEN_LOP FOREIGN KEY (MALOP) REFERENCES LOP(MALOP)
+
+ALTER TABLE PHUHUYNH
+ADD CONSTRAINT FK_PHUHUYNH_HV FOREIGN KEY (MAHV) REFERENCES HOCVIEN(MAHV)
+
+
+INSERT INTO LOP 
+ VALUES
+('L01','LOP LISTENING 1'),
+('L02','LOP SPEAKING 1'),
+('L03','LOP READING 1'),
+('L04','LOP WRITING 1'),
+
+('L05','LOP LISTENING 2'),
+('L06','LOP SPEAKING 2'),
+('L07','LOP READING 2'),
+('L08','LOP WRITING 2'),
+
+('L09','LOP LISTENING 3'),
+('L10','LOP SPEAKING 3'),
+('L11','LOP READING 3'),
+('L12','LOP WRITING 3')
+
+
+
+
+
+
+ INSERT INTO KHOAHOC
+ VALUES 
+('KH01','L01','KHOA HOC 01 '),
+('KH02','L02','KHOA HOC 01 '),
+('KH03','L03','KHOA HOC 01 '),
+('KH04','L04','KHOA HOC 01  ')
+
+
+SET DATEFORMAT DMY
+INSERT INTO GIANGVIEN
+VALUES 
+('GV01','L01',N'Nguyễn Trường Giang',N'NAM','10/09/1998','0891393939',N'25 Trương Định','1@GMAIL.COM','0932919191',N'Sư Phạm',N'Kỹ năng tốt','',25,10000000),
+('GV02','L02',N'Giang Trúc Mai',N'NỮ','01/09/1993','0891123939',N'93 Tôn Đảng','2@GMAIL.COM','0932438138',N'Sư Phạm',N'Kỹ năng tốt','',27,10000000),
+('GV03','L03',N'Lưu Giang Hương',N'NỮ','13/04/1995','0293939333',N'1 Nguyễn Trung Trực','3@GMAIL.COM','0932133883',N'Sư Phạm',N'Kỹ năng tốt','',25,10000000),
+('GV04','L04',N'Mã Thanh Tùng',N'NAM','02/01/1996','0234534553',N'89 Bùi Thị Xuân','4@GMAIL.COM','0931339393',N'Sư Phạm',N'Kỹ năng tốt','',28,10000000),
+
+('GV05','L01',N'Mã Thanh Tùng',N'NAM','13/01/1996','0134566666',N'29 Hải Thượng Lãng Ông','5@GMAIL.COM','093122293',N'Sư Phạm',N'Kỹ năng tốt','',30,10000000),
+('GV06','L02',N'Quang Liêm',N'NAM','24/02/1993','0113444243',N'45 Trần Quang Diệu','6@GMAIL.COM','0931546393',N'Sư Phạm',N'Kỹ năng tốt','',25,10000000),
+('GV07','L03',N'Trần Quang',N'NAM','11/01/1992','0112343243',N'90 Trần Quang Khải','7@GMAIL.COM','0976559393',N'Sư Phạm',N'Kỹ năng tốt','',26,10000000),
+('GV08','L04',N'Lê Giang',N'NỮ','10/07/1993','0113323423',N'1003 Hoàng SA','8@GMAIL.COM','0932344393',N'Sư Phạm',N'Kỹ năng tốt','',27,10000000),
+
+('GV09','L01',N'Kim Thanh',N'NỮ','11/09/1994','0234425433',N'100 CMT8','9@GMAIL.COM','093234844',N'Sư Phạm',N'Kỹ năng tốt','',25,10000000),
+('GV10','L02',N'Trần Lê Thảo Mi',N'NỮ','12/01/1996','0112343423',N'65 LÊ Thị Riêng','10@GMAIL.COM','0932444413',N'Sư Phạm',N'Kỹ năng tốt','',29,10000000),
+('GV11','L03',N'Lê Sang',N'NAM','23/08/1996','2343331333',N'103 Nghĩa Hưng','11@GMAIL.COM','0931123333',N'Sư Phạm',N'Kỹ năng tốt','',30,10000000),
+('GV12','L04',N'Thanh Nhã',N'NỮ','02/06/1994','0123444443',N'97 Lê Minh Xuân','12@GMAIL.COM','0975788893',N'Sư Phạm',N'Kỹ năng tốt','',30,10000000),
+
+('GV13','L01',N'Nguyễn Thanh Tùng',N'NAM','20/01/1996','0128248444',N'100 Cao Thắng','13@GMAIL.COM','099384844393',N'Sư Phạm',N'Kỹ năng tốt','',30,10000000),
+('GV14','L02',N'Nguyễn Bảo Ngọc',N'NỮ','25/08/1996','0234444484',N'57 Trần Quang Khải','14@GMAIL.COM','0945646753',N'Sư Phạm',N'Kỹ năng tốt','',24,10000000),
+
+
+SET DATEFORMAT DMY
+INSERT INTO GIANGVIEN
+VALUES 
+
+
+('GV16','L02',N'Nguyễn Bảo Thanh',N'NỮ','25/08/1996','0234444484',N'57 Trần Quang Khải','14@GMAIL.COM','0945646753',N'Sư Phạm',N'Kỹ năng tốt','',15,0)
+
+
+
+SET DATEFORMAT DMY
+INSERT INTO HOCVIEN
+VALUES
+('HV01','L01',N'Trần Quang Thịnh',N'Tiểu Học',N'13 Lãng Bĩnh Thăng','0933913391',N'Nam','10/09/2007',7),
+('HV02','L01',N'Trần Minh Khôi',N'Tiểu Học',N'122 Chấn Hưng','0933345345',N'Nam','08/09/2012',9),
+('HV03','L01',N'Lê Kim Thanh',N'Tiểu Học',N'29 Ngô Quyền','093345451',N'Nam','11/09/2013',6),
+('HV04','L01',N'Nguyễn Quang Thắng',N'Tiểu Học',N'122 Lãng Bĩnh Thăng','0933453453',N'Nam','13/09/2012',8),
+('HV05','L01',N'Trần Minh Nga',N'Tiểu Học',N'13 Trần Quang Diệu','0935645645',N'Nữ','23/09/2007',8),
+('HV06','L01',N'Nguyễn Trần Thanh Mỹ',N'Tiểu Học',N'23 Trần Quang Diệu','09337979871',N'Nam','24/09/2011',9),
+('HV07','L01',N'LÊ Thị Yến Nhi',N'Tiểu Học',N'13 Nguyễn Chí Thanh','0937979797',N'Nữ','12/09/2011',7),
+('HV08','L01',N'Nguyễn Thanh Trúc',N'Tiểu Học',N'27 Nguyễn Chí Thanh','093789797',N'Nam','25/09/2007',8),
+('HV09','L01',N'Lê Xuân Thành',N'Tiểu Học',N'20 Lê Thị Riêng','0938978907',N'Nam','10/12/2011',9),
+('HV10','L01',N'Bùi Trọng Phát',N'Tiểu Học',N'74 Lê Thị Riêng','093090844',N'Nam','12/01/2011',7),
+('HV11','L01',N'Nguyễn Ngọc Khánh Đoan',N'Tiểu Học',N'100 Hùng Vương','0912393331',N'Nam','10/02/2012',10),
+('HV12','L01',N'Cao Thanh Hà',N'Tiểu Học',N'100 Cao Thắng','0912393833',N'Nam','23/11/2012',6),
+('HV13','L01',N'Nguyễn San San',N'Tiểu Học',N'10 LÊ Minh Xuân','091938381',N'Nữ','12/04/2013',6) 
+
+
+INSERT INTO NHANVIENHOTRO
+VALUES 
+('NV01','L01',N'Nguyễn Xuân Hoàng',N'NAM'),
+('NV02','L02',N'Lê Văn Liêm',N'NAM'),
+('NV03','L03',N'Trịnh Văn Thanh',N'NAM'),
+('NV04','L04',N'Mã Thị Đào ',N'Nữ'),
+('NV05','L05',N'Nguyễn Đoan Trang',N'Nữ'),
+('NV06','L06',N'Đào Thị Bích',N'NAM'),
+('NV07','L07',N'Đặng Văn Lâm',N'Nam'),
+('NV08','L08',N'Giang Trúc Mai',N'Nữ'),
+('NV09','L09',N'Mai Thanh',N'Nữ'),
+('NV10','L10',N'Nguyễn Đình Trọng',N'NAM')
+
+
+INSERT INTO PHUHUYNH
+VALUES 
+('PH01','HV01',N'Đào Thị Bích','09124441443'),
+('PH02','HV02',N'Ngân Thanh','0912525663'),
+('PH03','HV03',N'Nguyễn Bính','0912133399'),
+('PH04','HV04',N'Xuân Thanh','09129238913'),
+('PH05','HV05',N'Nguyễn Đình Vũ','0912048313'),
+('PH06','HV06',N'Giang Kim Lý','0912098713'),
+('PH07','HV07',N'Trần Quang Dũng','0121288313'),
+('PH08','HV08',N'Trần Nhật Quang','091579313'),
+('PH09','HV09',N'Trần Thanh Tùng','0965475713'),
+('PH10','HV10',N'Trần Thu','091213333'),
+('PH11','HV11',N'Nguyễn Thanh Sang','09123123313')
+
+
+
+SELECT * FROM PHUHUYNH
+
+SELECT * FROM LOP
+
+SELECT * FROM GIANGVIEN
+
+SELECT * FROM KHOAHOC
+
+SELECT * FROM HOCVIEN
+
+-- xoa database
+DROP DATABASE QLTTANHNGU
+
+
+        -- Thêm
+INSERT into HOCVIEN
+VALUES ( 'HV14','L02' ,N'Nguyễn Hồng Ngọc', N'Tiểu Học',N'23 Trần Quang Diệu','0989898989',N'Nu','20120304')
+
+
+		-- Xóa
+-- Xóa bảng
+DELETE 
+FROM KHOAHOC
+-- Xóa có điều kiện 
+DELETE 
+FROM GIANGVIEN 
+WHERE MAGV =('GV15')
+		
+
+
+
+		--Sửa
+-- Sửa số điện thoại của viên có mã HV13 thành 0921221212
+UPDATE HOCVIEN 
+SET SDT ='0921221212'
+WHERE  MAHV ='HV13'
+
+--sửa tên học viên có mã HV01 thành LEE SIN 
+UPDATE HOCVIEN
+SET TENHV= 'LEE SIN '
+WHERE MAHV = 'HV01'
+
+--sửa tên giảng viên có mã GV11 thành LUKAKU
+UPDATE GIANGVIEN
+SET  TENGV = 'LUKAKU'
+WHERE MAGV = 'GV11'
+
+
+		--Sửa toàn bộ cột ngành học của bảng giảng viên
+UPDATE GIANGVIEN 
+SET NGANHHOC= N'GIẢNG VIÊN'
+
+--Hien thị
+SELECT * FROM HOCVIEN
+SELECT * FROM GIANGVIEN
+
+
+
+
+
+-- tính đúng đắn của bảng tâm ảnh hưởng 
+
+UPDATE GIANGVIEN
+SET MALOP='L099'
+WHERE MAGV='GV01'
+
+
+SELECT * FROM LOP
+SELECT * FROM GIANGVIEN
+
+
+
+
+
+
+
+
+
+
+
